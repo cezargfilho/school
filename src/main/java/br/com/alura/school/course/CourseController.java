@@ -1,15 +1,21 @@
 package br.com.alura.school.course;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import javax.validation.Valid;
-import java.net.URI;
-import java.util.List;
-
 import static java.lang.String.format;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+
+import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 class CourseController {
@@ -20,10 +26,11 @@ class CourseController {
         this.courseRepository = courseRepository;
     }
 
-    @GetMapping("/courses")
-    ResponseEntity<List<CourseResponse>> allCourses() {
-        return ResponseEntity.ok().build();
-    }
+	@GetMapping("/courses")
+	ResponseEntity<List<CourseResponse>> allCourses() {
+		List<CourseResponse> courses = courseRepository.findAll().stream().map(CourseResponse::new).collect(Collectors.toList());
+		return ResponseEntity.ok(courses);
+	}
 
     @GetMapping("/courses/{code}")
     ResponseEntity<CourseResponse> courseByCode(@PathVariable("code") String code) {
