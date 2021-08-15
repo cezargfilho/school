@@ -15,7 +15,6 @@ public class Enrollment {
 	@EmbeddedId
 	private EnrollmentId id;
 	
-	
     @Column(name = "enroll_date", nullable = false, unique = false)
 	private LocalDate date = LocalDate.now();
 

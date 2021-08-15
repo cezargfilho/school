@@ -24,7 +24,7 @@ class EnrollmentId implements Serializable {
 	private String courseCode;
 	
 	@Deprecated
-	public EnrollmentId() {	}
+	protected EnrollmentId() {	}
 
 	EnrollmentId(String username, String courseCode) {
 		this.username = username;

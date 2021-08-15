@@ -8,7 +8,7 @@ import org.springframework.util.Assert;
 
 public class ExistsEntityValidator implements ConstraintValidator<ExistsEntity, Object> {
 
-	private static final String PATH = "br.com.alura.school.";
+	private final String path = "br.com.alura.school.";
 	private String classpath;
 	private String field;
 
@@ -38,13 +38,14 @@ public class ExistsEntityValidator implements ConstraintValidator<ExistsEntity, 
 	                .getSingleResult();
 
 	        return existsInDB;
+	        
 		} catch (ClassNotFoundException e) {
 			return false;
 		}
 	}
 
 	private Class<?> toEntity() throws ClassNotFoundException {
-		return Class.forName(PATH + classpath);
+		return Class.forName(path + classpath);
 	}
 
 }

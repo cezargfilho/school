@@ -9,22 +9,21 @@ import br.com.alura.school.support.validation.ExistsEntity;
 
 class NewEnrollmentRequest {
 
-//	@UniqueEnrollment(entity = Enrollment.class, field = "username",pathVarName =
-//	"courseCode", column = "course_code")
 	@ExistsEntity(classpath = "user.User", field = "username")
 	@Size(max = 20)
 	@NotBlank
 	@JsonProperty
-	private String username;
-
-	public NewEnrollmentRequest() {
-	}
-
+	private final String username;
+	
+	@Deprecated
+	NewEnrollmentRequest() {
+		this.username = "";}
+	
 	NewEnrollmentRequest(String username) {
 		this.username = username;
 	}
 
-	public String getUsername() {
+	String getUsername() {
 		return username;
 	}
 
