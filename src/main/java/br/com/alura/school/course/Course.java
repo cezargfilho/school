@@ -1,13 +1,21 @@
 package br.com.alura.school.course;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import br.com.alura.school.enrollment.Enrollment;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 class Course {
@@ -27,6 +35,10 @@ class Course {
     private String name;
 
     private String description;
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_code")
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     @Deprecated
     protected Course() { }

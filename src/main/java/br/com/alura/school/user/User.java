@@ -1,14 +1,22 @@
 package br.com.alura.school.user;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import br.com.alura.school.enrollment.Enrollment;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 class User {
@@ -26,6 +34,10 @@ class User {
     @Email
     @Column(nullable = false, unique = true)
     private String email;
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "username")
+    private List<Enrollment> enrollment = new ArrayList<>();
 
     @Deprecated
     protected User() {}
