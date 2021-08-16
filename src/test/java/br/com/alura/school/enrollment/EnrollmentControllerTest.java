@@ -1,6 +1,7 @@
 package br.com.alura.school.enrollment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,9 +15,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
+
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql(scripts = {"classpath:schema.sql", "classpath:data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = { "classpath:schema.sql", "classpath:data.sql" }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 class EnrollmentControllerTest {
 	
     private final ObjectMapper jsonMapper = new ObjectMapper();
@@ -60,7 +63,6 @@ class EnrollmentControllerTest {
     @Test
     void should_not_allow_duplication_of_enrollment() throws Exception {
     	enrollmentRepository.save(new Enrollment("alex", "java-1"));
-
 		NewEnrollmentRequest newEnrollmentRequest = new NewEnrollmentRequest("alex");
 
     	mockMvc.perform(post("/courses/java-1/enroll")
@@ -91,5 +93,15 @@ class EnrollmentControllerTest {
     	 mockMvc.perform(get("/courses/enroll/report")
                  .accept(MediaType.APPLICATION_JSON))
                  .andExpect(status().isNoContent());
+    }
+    
+    @Test
+    void should_validate_bad_enrollment_request() throws Exception {
+		NewEnrollmentRequest newEnrollmentRequest = new NewEnrollmentRequest("an-username-that-is-really-really-big");
+    	
+    	mockMvc.perform(post("/courses/java-1/enroll")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(jsonMapper.writeValueAsString(newEnrollmentRequest)))
+				.andExpect(status().isBadRequest());
     }
 }
