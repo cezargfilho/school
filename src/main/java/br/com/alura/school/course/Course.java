@@ -15,6 +15,7 @@ import br.com.alura.school.enrollment.Enrollment;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -60,5 +61,9 @@ class Course {
     String getDescription() {
         return description;
     }
+
+	List<Enrollment> getEnrollments() {
+		return Collections.unmodifiableList(enrollments);
+	}
 
 }

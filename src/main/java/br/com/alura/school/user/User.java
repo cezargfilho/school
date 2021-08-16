@@ -16,6 +16,7 @@ import br.com.alura.school.enrollment.Enrollment;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -37,7 +38,7 @@ class User {
     
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "username")
-    private List<Enrollment> enrollment = new ArrayList<>();
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     @Deprecated
     protected User() {}
@@ -54,5 +55,9 @@ class User {
     String getEmail() {
         return email;
     }
+    
+	List<Enrollment> getEnrollments() {
+		return Collections.unmodifiableList(enrollments);
+	}
 
 }
